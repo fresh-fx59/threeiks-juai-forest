@@ -5,7 +5,7 @@ Deploy VLESS+Reality VPN on any VPS in one command.
 ## Quick Start
 
 ```bash
-sudo bash <(curl -sL https://raw.githubusercontent.com/fresh-fx59/threeiks-juai-forest/main/setup.sh)
+curl -sL https://raw.githubusercontent.com/fresh-fx59/threeiks-juai-forest/main/setup.sh | sudo bash
 ```
 
 ## What It Does

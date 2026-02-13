@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # 3X-UI + VLESS+Reality Quick Setup Script
-# Usage: bash <(curl -sL https://raw.githubusercontent.com/fresh-fx59/threeiks-juai-forest/main/setup.sh)
+# Usage: curl -sL https://raw.githubusercontent.com/fresh-fx59/threeiks-juai-forest/main/setup.sh | sudo bash
 
 INSTALL_DIR="/opt/3x-ui"
 PANEL_PORT=2053
