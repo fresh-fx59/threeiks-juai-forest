@@ -217,6 +217,21 @@ curl -s -o /dev/null -b "${SESSION_COOKIE}" "${API}/panel/setting/updateUser" \
     --data-urlencode "newUsername=${PANEL_USER}" \
     --data-urlencode "newPassword=${PANEL_PASS}"
 
+# Remove default bittorrent blocking rule from xray routing
+docker exec 3x-ui cat /app/bin/config.json 2>/dev/null | python3 -c "
+import json, sys
+config = json.load(sys.stdin)
+rules = config.get('routing', {}).get('rules', [])
+config['routing']['rules'] = [r for r in rules if 'bittorrent' not in r.get('protocol', [])]
+print(json.dumps(config))
+" | docker exec -i 3x-ui sh -c 'cat > /tmp/tpl.json && python3 -c "
+import sqlite3, json
+c = sqlite3.connect(\"/etc/x-ui/x-ui.db\")
+tpl = open(\"/tmp/tpl.json\").read()
+c.execute(\"INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)\", (\"xrayTemplateConfig\", tpl))
+c.commit()
+" && rm /tmp/tpl.json'
+
 echo "  Panel configured."
 
 # ─── Step 5: Restart container and update firewall ───
